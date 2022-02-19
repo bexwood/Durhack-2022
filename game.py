@@ -18,9 +18,12 @@ roc = pygame.image.load('Images/roc.png')
 brazil = pygame.image.load('Images/brazil.png')
 germany = pygame.image.load('Images/germany.png')
 start = pygame.image.load('Images/start.png')
+warning = pygame.image.load('Images/warning.png')
 
 countries = [us, uk, roc, germany, china, brazil]
 country = 0
+
+clicked = False
 
 startScreen = True
 hurdleGame = False
@@ -36,6 +39,10 @@ while True:
         screen.blit (characterSelection, (700,150))
         screen.blit (countries[country], (760, 200))
         screen.blit (start, (790, 525))
+
+        if clicked:
+            screen.blit (warning, (765, 625))
+
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -56,9 +63,27 @@ while True:
                         country=0
                     else:
                         country+=1
-                if pos[0]>790 and pos[0]<1040 and pos[1]>525 and pos[1]<620:
-                    startScreen = False
+
+                if pos[0]>100 and pos[0]<295 and pos[1]>455 and pos[1]<640:
+                    tableTennisGame = True
+                    hurdleGame = False
+
+                if pos[0]>350 and pos[0]<550 and pos[1]>455 and pos[1]<640:
                     hurdleGame = True
-        while hurdleGame:
+                    tableTennisGame = False
+                
+                if pos[0]>790 and pos[0]<1040 and pos[1]>525 and pos[1]<620:
+                    if hurdleGame or tableTennisGame:
+                        startScreen = False
+                    else:
+                        clicked = True
+                        screen.blit (warning, (765, 625))
+                        pygame.display.flip()
+
+        while hurdleGame and not startScreen:
+            screen.fill(0)
+            pygame.display.flip()
+
+        while tableTennisGame and not startScreen:
             screen.fill(0)
             pygame.display.flip()
