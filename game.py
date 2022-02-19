@@ -1,4 +1,3 @@
-from shutil import move
 import pygame
 from pygame.locals import *
 
