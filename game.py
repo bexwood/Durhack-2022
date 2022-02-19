@@ -14,7 +14,7 @@ tableTennis = pygame.image.load('Images/tableTennis.png')
 hurdles = pygame.image.load('Images/hurdles.png')
 characterSelection = pygame.image.load('Images/characterSelection.png')
 uk = pygame.image.load('Images/uk.png')
-us = pygame.image.load('Images/usa.png')
+us = pygame.image.load('Images/rotated/usa.png')
 china = pygame.image.load('Images/china.png')
 roc = pygame.image.load('Images/roc.png')
 brazil = pygame.image.load('Images/brazil.png')
@@ -38,7 +38,7 @@ jumping = False
 
 hurdleCoord = [1200,450]
 hurdleType = hurdle
-jumperCoord = [10, 375]
+jumperCoord = [5, 275]
 counter = 0
 counterStarted = False
 
