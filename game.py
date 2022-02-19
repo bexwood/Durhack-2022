@@ -100,7 +100,7 @@ while True:
             screen.blit(runningTrack, (0,0))
             screen.blit(hurdleType, hurdleCoord)
             screen.blit(countries[country], jumperCoord)
-            hurdleCoord[0] -=5
+            hurdleCoord[0] -=1
             pygame.display.flip()
 
             playerRect = pygame.Rect(countries[country].get_rect(topleft=(jumperCoord)))
@@ -117,7 +117,7 @@ while True:
                 jumperCoord[1] += 5
                 counterStarted = False
             
-            if counter == 22:
+            if counter == 45:
                 counter = 0
 
             for event in pygame.event.get():
@@ -130,9 +130,6 @@ while True:
                         jumperCoord[1] -= 300
                         counterStarted = True
 
-    
-            
-            
 
         while tableTennisGame and not startScreen:
             screen.fill(0)
