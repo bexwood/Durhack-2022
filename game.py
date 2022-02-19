@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 pygame.init()
-width, height = 1200,729
+width, height = 800,600
 screen = pygame.display.set_mode((width, height))
 
 background = pygame.image.load('Images/logo.png')
