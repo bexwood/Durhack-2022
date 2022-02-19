@@ -20,6 +20,9 @@ germany = pygame.image.load('Images/germany.png')
 start = pygame.image.load('Images/start.png')
 warning = pygame.image.load('Images/warning.png')
 
+runningTrack = pygame.image.load('Images/Hurdles/runningTrack.png')
+hurdle = pygame.image.load('Images/Hurdles/hurdle.png')
+
 countries = [us, uk, roc, germany, china, brazil]
 country = 0
 
@@ -31,6 +34,7 @@ tableTennisGame = False
 
 while True:
     while startScreen:
+        screen.fill(0)
         screen.blit(background, (0,0))
         screen.blit(welcome, (50,50))
         screen.blit (rings, (975,25))
@@ -82,8 +86,10 @@ while True:
 
         while hurdleGame and not startScreen:
             screen.fill(0)
+            screen.blit(runningTrack, (0,0))
             pygame.display.flip()
 
         while tableTennisGame and not startScreen:
             screen.fill(0)
             pygame.display.flip()
+            exit(0)
