@@ -1,5 +1,8 @@
+from shutil import move
 import pygame
 from pygame.locals import *
+
+from datetime import datetime, timedelta
 
 pygame.init()
 width, height = 1200,679
@@ -22,6 +25,7 @@ warning = pygame.image.load('Images/warning.png')
 
 runningTrack = pygame.image.load('Images/Hurdles/runningTrack.png')
 hurdle = pygame.image.load('Images/Hurdles/hurdle.png')
+fallen = pygame.image.load('Images/Hurdles/fallenHurdle.png')
 
 countries = [us, uk, roc, germany, china, brazil]
 country = 0
@@ -31,6 +35,13 @@ clicked = False
 startScreen = True
 hurdleGame = False
 tableTennisGame = False
+jumping = False
+
+hurdleCoord = [1200,450]
+hurdleType = hurdle
+jumperCoord = [10, 375]
+counter = 0
+counterStarted = False
 
 while True:
     while startScreen:
@@ -87,7 +98,41 @@ while True:
         while hurdleGame and not startScreen:
             screen.fill(0)
             screen.blit(runningTrack, (0,0))
+            screen.blit(hurdleType, hurdleCoord)
+            screen.blit(countries[country], jumperCoord)
+            hurdleCoord[0] -=5
             pygame.display.flip()
+
+            playerRect = pygame.Rect(countries[country].get_rect(topleft=(jumperCoord)))
+            hurdleRect = pygame.Rect(hurdle.get_rect(topleft=(hurdleCoord)))
+
+            if playerRect.colliderect(hurdleRect):
+                collision = True
+                hurdleType = fallen
+
+            if counterStarted:
+                counter +=1
+            
+            if counter > 0 and jumperCoord[1] < 375:
+                jumperCoord[1] += 5
+                counterStarted = False
+            
+            if counter == 22:
+                counter = 0
+
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit() 
+                    exit(0)
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE and jumperCoord[1] > 225:
+                        jumperCoord[1] -= 300
+                        counterStarted = True
+
+    
+            
+            
 
         while tableTennisGame and not startScreen:
             screen.fill(0)
