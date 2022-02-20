@@ -38,9 +38,11 @@ jumping = False
 
 hurdleCoord = [1200,400]
 hurdleType = hurdle
-jumperCoord = [5, 275]
+jumperCoord = [250, 275]
 counter = 0
 counterStarted = False
+successfulJump = 0
+knockedOver = 0
 
 while True:
     while startScreen:
@@ -95,6 +97,17 @@ while True:
                         pygame.display.flip()
 
         while hurdleGame and not startScreen:
+            print("SUCCESS: ", successfulJump, "FAILED: ",knockedOver)
+
+            if hurdleCoord[0] == 0:
+                hurdleCoord[0] = 2000
+                if hurdleType == fallen:
+                    hurdleType = hurdle
+                    knockedOver += 1
+                else:
+                    successfulJump += 1
+
+
             screen.fill(0)
             screen.blit(runningTrack, (0,0))
             screen.blit(hurdleType, hurdleCoord)
