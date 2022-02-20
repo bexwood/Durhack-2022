@@ -26,6 +26,7 @@ germany = pygame.image.load('Images/Characters/germany.png')
 runningTrack = pygame.image.load('Images/Hurdles/runningTrack.png')
 standingHurdle = pygame.image.load('Images/Hurdles/hurdle.png')
 fallenHurdle = pygame.image.load('Images/Hurdles/fallenHurdle.png')
+finishLine = pygame.image.load('Images/Hurdles/finishLine.png')
 
 ### Setting up parameters used throughout ###
 
@@ -37,6 +38,7 @@ country = 0
 clicked = False
 startScreen = True
 hurdleGame = False
+hurdleResults = False
 tableTennisGame = False
 
 #hurdle game parameters
@@ -48,10 +50,14 @@ counter = 0
 counterStarted = False
 successfulJump = 0
 knockedOver = 0
+finishLineCoord = [1200, 350]
 
 pygame.init()
 width, height = 1200,679
 screen = pygame.display.set_mode((width, height))
+
+base_font = pygame.font.Font(None,40)
+font = pygame.font.Font('RIO2016.TTF', 48)
 
 while True:
     while startScreen:
@@ -106,8 +112,7 @@ while True:
                         pygame.display.flip()
 
         while hurdleGame and not startScreen:
-            print("SUCCESS: ", successfulJump, "FAILED: ",knockedOver)
-
+            
             if hurdleCoord[0] == 0:
                 hurdleCoord[0] = 2000
                 if hurdleType == fallenHurdle:
@@ -116,40 +121,58 @@ while True:
                 else:
                     successfulJump += 1
 
-
             screen.fill(0)
             screen.blit(runningTrack, (0,0))
-            screen.blit(hurdleType, hurdleCoord)
             screen.blit(countries[country], jumperCoord)
-            hurdleCoord[0] -=5
+
+            if successfulJump + knockedOver == 3 and finishLineCoord[0] > 100:
+                finishLineCoord[0]-=5
+                screen.blit (finishLine, finishLineCoord)
+                pygame.display.flip()
+
+            elif successfulJump + knockedOver == 3:
+                hurdleGame = False
+                hurdleResults = True 
+
+            else:
+                screen.blit(hurdleType, hurdleCoord)
+                hurdleCoord[0] -=5
+                pygame.display.flip()
+
+                playerRect = pygame.Rect(countries[country].get_rect(topleft=(jumperCoord)))
+                hurdleRect = pygame.Rect(standingHurdle.get_rect(topleft=(hurdleCoord)))
+
+                if playerRect.colliderect(hurdleRect):
+                    collision = True
+                    hurdleType = fallenHurdle
+
+                if counterStarted:
+                    counter +=1
+            
+                if counter > 20 and jumperCoord[1] < 275:
+                    jumperCoord[1] += 1
+                    counterStarted = False
+            
+                if counter == 45:
+                    counter = 0
+
+                for event in pygame.event.get():
+                    if event.type==pygame.QUIT:
+                        pygame.quit() 
+                        exit(0)
+
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE and jumperCoord[1] > 225:
+                            jumperCoord[1] -= 300
+                            counterStarted = True
+
+        while hurdleResults:
+
+            hurdlesKnocked = font.render("You knocked over "+str(knockedOver)+" hurdles",True,(255,255,255))
+            screen.blit(hurdlesKnocked, (600 - hurdlesKnocked.get_width()//2, 50)) 
+            hurdlesStanding = font.render("You suuccessfully jumped "+str(successfulJump)+" hurdles",True,(255,255,255))
+            screen.blit(hurdlesStanding, (600 - hurdlesStanding.get_width()//2, 150)) 
             pygame.display.flip()
-
-            playerRect = pygame.Rect(countries[country].get_rect(topleft=(jumperCoord)))
-            hurdleRect = pygame.Rect(standingHurdle.get_rect(topleft=(hurdleCoord)))
-
-            if playerRect.colliderect(hurdleRect):
-                collision = True
-                hurdleType = fallenHurdle
-
-            if counterStarted:
-                counter +=1
-            
-            if counter > 20 and jumperCoord[1] < 275:
-                jumperCoord[1] += 1
-                counterStarted = False
-            
-            if counter == 45:
-                counter = 0
-
-            for event in pygame.event.get():
-                if event.type==pygame.QUIT:
-                    pygame.quit() 
-                    exit(0)
-
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE and jumperCoord[1] > 225:
-                        jumperCoord[1] -= 300
-                        counterStarted = True
 
 
         while tableTennisGame and not startScreen:
