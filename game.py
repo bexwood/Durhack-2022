@@ -13,12 +13,12 @@ rings = pygame.image.load('Images/rings.png')
 tableTennis = pygame.image.load('Images/tableTennis.png')
 hurdles = pygame.image.load('Images/hurdles.png')
 characterSelection = pygame.image.load('Images/characterSelection.png')
-uk = pygame.image.load('Images/uk.png')
+uk = pygame.image.load('Images/rotated/uk.png')
 us = pygame.image.load('Images/rotated/usa.png')
-china = pygame.image.load('Images/china.png')
-roc = pygame.image.load('Images/roc.png')
-brazil = pygame.image.load('Images/brazil.png')
-germany = pygame.image.load('Images/germany.png')
+china = pygame.image.load('Images/rotated/china.png')
+roc = pygame.image.load('Images/rotated/roc.png')
+brazil = pygame.image.load('Images/rotated/brazil.png')
+germany = pygame.image.load('Images/rotated/germany.png')
 start = pygame.image.load('Images/start.png')
 warning = pygame.image.load('Images/warning.png')
 
@@ -36,7 +36,7 @@ hurdleGame = False
 tableTennisGame = False
 jumping = False
 
-hurdleCoord = [1200,450]
+hurdleCoord = [1200,400]
 hurdleType = hurdle
 jumperCoord = [5, 275]
 counter = 0
@@ -51,7 +51,7 @@ while True:
         screen.blit (tableTennis, (100,450))
         screen.blit (hurdles, (350,450))
         screen.blit (characterSelection, (700,150))
-        screen.blit (countries[country], (760, 200))
+        screen.blit (countries[country], (820, 200))
         screen.blit (start, (790, 525))
 
         if clicked:
@@ -99,7 +99,7 @@ while True:
             screen.blit(runningTrack, (0,0))
             screen.blit(hurdleType, hurdleCoord)
             screen.blit(countries[country], jumperCoord)
-            hurdleCoord[0] -=1
+            hurdleCoord[0] -=5
             pygame.display.flip()
 
             playerRect = pygame.Rect(countries[country].get_rect(topleft=(jumperCoord)))
@@ -112,8 +112,8 @@ while True:
             if counterStarted:
                 counter +=1
             
-            if counter > 0 and jumperCoord[1] < 375:
-                jumperCoord[1] += 5
+            if counter > 20 and jumperCoord[1] < 275:
+                jumperCoord[1] += 1
                 counterStarted = False
             
             if counter == 45:
