@@ -42,24 +42,28 @@ tableTennisGame = False
 #hurdle game parameters
 jumping = False
 hurdleCoord = [1200,400]
-hurdleType = hurdle
+hurdleType = standingHurdle
 jumperCoord = [250, 275]
 counter = 0
 counterStarted = False
 successfulJump = 0
 knockedOver = 0
 
+pygame.init()
+width, height = 1200,679
+screen = pygame.display.set_mode((width, height))
+
 while True:
     while startScreen:
         screen.fill(0)
-        screen.blit(background, (0,0))
-        screen.blit(welcome, (50,50))
-        screen.blit (rings, (975,25))
+        screen.blit(startScreenBackground, (0,0))
+        screen.blit(welcomeMessage, (50,50))
+        screen.blit (olympicRings, (975,25))
         screen.blit (tableTennis, (100,450))
         screen.blit (hurdles, (350,450))
         screen.blit (characterSelection, (700,150))
         screen.blit (countries[country], (820, 200))
-        screen.blit (start, (790, 525))
+        screen.blit (startButton, (790, 525))
 
         if clicked:
             screen.blit (warning, (765, 625))
@@ -106,8 +110,8 @@ while True:
 
             if hurdleCoord[0] == 0:
                 hurdleCoord[0] = 2000
-                if hurdleType == fallen:
-                    hurdleType = hurdle
+                if hurdleType == fallenHurdle:
+                    hurdleType = standingHurdle
                     knockedOver += 1
                 else:
                     successfulJump += 1
@@ -121,11 +125,11 @@ while True:
             pygame.display.flip()
 
             playerRect = pygame.Rect(countries[country].get_rect(topleft=(jumperCoord)))
-            hurdleRect = pygame.Rect(hurdle.get_rect(topleft=(hurdleCoord)))
+            hurdleRect = pygame.Rect(standingHurdle.get_rect(topleft=(hurdleCoord)))
 
             if playerRect.colliderect(hurdleRect):
                 collision = True
-                hurdleType = fallen
+                hurdleType = fallenHurdle
 
             if counterStarted:
                 counter +=1
